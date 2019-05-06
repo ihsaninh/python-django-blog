@@ -1,0 +1,19 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">	
+	<title>{% block page_title %}{% endblock page_title %}</title>
+	{% include "snippets/styles.html" %}
+</head>
+<body>
+	{% include "snippets/navbar.html" %}
+
+	<div class="container mtop">	
+		{% block contents %}
+			
+		{% endblock contents %}
+	</div>
+
+	{% include "snippets/scripts.html" %}
+</body>
+</html>

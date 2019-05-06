@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+	Artikel
+{% endblock page_title %}
+
+{% block contents %}
+<div class="row">
+	<div class="col-8">
+		{% for artikel in artikel_list %}
+		<h3><a class="text-dark" href="{% url 'artikel:detail' artikel.slug %}">{{artikel.judul}}</a></h3>
+		<p>Kategori: {{artikel.kategori}} | {{artikel.published|date}}</p>
+		<p>{{artikel.isi|truncatewords:50}} <a href="{% url 'artikel:detail' artikel.slug %}">Selengkapnya</a></p>
+		{% endfor %}
+		{% if is_paginated %}
+		<nav aria-label="artikelPage">
+		  <ul class="pagination">
+		    {% if page_obj.has_previous %}
+		     	<li class="page-item">
+		     		<a class="page-link" href="{% url 'artikel:list' page_obj.previous_page_number %}">Previous</a>
+		     	</li>
+		     {% else %}
+			     <li class="page-item disabled">
+			     	<span class="page-link">Previous</span>
+			    </li>
+		     {% endif %}     
+			{% for page in paginator.page_range %}
+			{% if page is page_obj.number %}
+				<li class="page-item active">
+			      <span class="page-link">
+			        {{page}}
+			        <span class="sr-only">(current)</span>
+			      </span>
+		    	</li>
+		    {% else %}
+		    	<li class="page-item"><a class="page-link" href="{% url 'artikel:list' page %}">{{page}}</a></li>
+			{% endif %}
+			{% endfor %}
+		    	{% if page_obj.has_next %}
+		     	<li class="page-item">
+		     		<a class="page-link" href="{% url 'artikel:list' page_obj.next_page_number %}">Next</a>
+		     	</li>
+		    	{% else %}
+			    <li class="page-item disabled">
+			     	<span class="page-link">Next</span>
+			    </li>
+		     {% endif %}     
+		  </ul>
+		</nav>
+	{% endif %}
+	</div>
+	<div class="col-4">
+		<h3>Kategori</h3>
+		<ul class="list-group list-group-flush">
+			{% for kategori in kategori_list %}
+			<li class="list-group-item"><a href="{% url 'artikel:category' kategori %}">{{kategori}}</a></li>
+			{% endfor %}  
+		</ul>
+	</div>
+</div>
+{% endblock contents %}
